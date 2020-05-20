@@ -15,7 +15,7 @@ public class CreateAccount {
 		Thread.sleep(4000);
 		driver.findElement(By.name("fname")).sendKeys("satyendra");
 		driver.findElement(By.name("lname")).sendKeys("Sen");
-		driver.findElement(By.name("email")).sendKeys("Satyendrasen@gmail.com");
+		driver.findElement(By.name("email")).sendKeys("Satyendrasen@test.com");
 		driver.findElement(By.name("password")).sendKeys("test123");
 		driver.findElement(By.name("cpassword")).sendKeys("test123");
 		driver.findElement(By.id("chktermpolicy")).click();
