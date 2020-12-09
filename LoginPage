@@ -1,0 +1,70 @@
+package test;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+
+public class Assignment1 {
+	WebDriver driver;
+	
+
+  
+  @BeforeMethod
+  public void LaunchBrowser() {
+		System.setProperty("webdriver.chrome.driver","D:/Drivers/chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		
+  }
+
+  
+  @AfterMethod
+  public void CloseBrowser() {
+	  driver.close();
+  }
+
+  @Test (priority=1)
+  public void Login() {
+	  driver.get("https://www.comm100.com/");
+	  driver.findElement(By.linkText("Sign In")).click();
+	  WebElement username=driver.findElement(By.xpath("//input[@id='txtEmail']"));
+	  WebElement password=driver.findElement(By.xpath("//input[@id='txtPassword']"));
+	  WebElement SignIn = driver.findElement(By.xpath("//input[@id='lblLogin']"));
+	  username.sendKeys("EnterUser");
+	  password.sendKeys("EnterPassword");
+	  SignIn.click();
+	  String ActualUrl= "https://secure.comm100.com/login.aspx";
+	  Assert.assertEquals(driver.getCurrentUrl(),ActualUrl );
+  }
+
+@Test (priority =2)
+public void EnterInvalidUser() {
+	driver.get("https://www.comm100.com/");
+	  driver.findElement(By.linkText("Sign In")).click();
+	  WebElement username=driver.findElement(By.id("txtEmail"));
+	  WebElement password=driver.findElement(By.id("txtPassword"));
+	  WebElement SignIn = driver.findElement(By.xpath("//input[@id='lblLogin']"));
+	  username.sendKeys("EnterUser");
+	  password.sendKeys("EnterPassword");
+	  Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error']")).getText(), "Email is invalid.");
+}
+
+@Test (priority =2)
+public void VerifyErrormessage() {
+	driver.get("https://www.comm100.com/");
+	  driver.findElement(By.linkText("Sign In")).click();
+	  
+	  driver.findElement(By.xpath("//input[@id='lblLogin']")).click();
+	  Assert.assertEquals(driver.findElement(By.xpath("//label[@class='error']")).getText(), "Email is required.");
+	  Assert.assertEquals(driver.findElement(By.xpath("//label[contains(text(),'Password is required.')]")).getText(), "Password is required.");
+}
+
+}
